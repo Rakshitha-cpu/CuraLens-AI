@@ -10,6 +10,8 @@ import {
 
 import LoadingScreen from "./LoadingScreen";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 function UploadCard({ setResult, setPreview }) {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -54,7 +56,7 @@ function UploadCard({ setResult, setPreview }) {
       setLoading(true);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/ai/test",
+        `${API_URL}/ai/test`,
         formData,
         {
           headers: {

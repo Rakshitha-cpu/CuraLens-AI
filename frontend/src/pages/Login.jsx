@@ -7,6 +7,8 @@ import Navbar from "../components/layout/Navbar";
 import AnimatedBackground from "../components/background/AnimatedBackground";
 import FloatingParticles from "../components/background/FloatingParticles";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +18,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/auth/login",
+        `${API_URL}/auth/login`,
         {
           email,
           password,

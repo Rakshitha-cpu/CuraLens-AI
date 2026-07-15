@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { FileDown, Loader2 } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 function DownloadReportButton({ result }) {
   const [downloading, setDownloading] = useState(false);
 
@@ -15,7 +17,7 @@ function DownloadReportButton({ result }) {
       setDownloading(true);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/ai/report",
+        `${API_URL}/ai/report`,
         result,
         {
           responseType: "blob", // important: tells axios to expect binary data

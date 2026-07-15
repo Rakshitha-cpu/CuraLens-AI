@@ -7,6 +7,8 @@ import Navbar from "../components/layout/Navbar";
 import AnimatedBackground from "../components/background/AnimatedBackground";
 import FloatingParticles from "../components/background/FloatingParticles";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 function History() {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +28,7 @@ function History() {
     setLoggedIn(true);
 
     axios
-      .get("http://127.0.0.1:8000/history/me", {
+      .get(`${API_URL}/history/me`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => setRecords(response.data))

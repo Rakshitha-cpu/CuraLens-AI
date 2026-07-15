@@ -7,6 +7,8 @@ import Dashboard from "../components/dashboard/Dashboard";
 import AnimatedBackground from "../components/background/AnimatedBackground";
 import FloatingParticles from "../components/background/FloatingParticles";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 function HistoryDetail() {
   const { id } = useParams();
   const [result, setResult] = useState(null);
@@ -17,7 +19,7 @@ function HistoryDetail() {
     const token = localStorage.getItem("token");
 
     axios
-      .get(`http://127.0.0.1:8000/history/detail/${id}`, {
+      .get(`${API_URL}/history/detail/${id}`, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       })
       .then((response) => setResult(response.data))

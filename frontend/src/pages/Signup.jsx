@@ -7,6 +7,8 @@ import Navbar from "../components/layout/Navbar";
 import AnimatedBackground from "../components/background/AnimatedBackground";
 import FloatingParticles from "../components/background/FloatingParticles";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 function Signup() {
   const navigate = useNavigate();
 
@@ -38,7 +40,7 @@ function Signup() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/auth/register",
+        `${API_URL}/auth/register`,
         {
           name: formData.name,
           email: formData.email,

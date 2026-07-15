@@ -7,6 +7,8 @@ import Navbar from "../components/layout/Navbar";
 import AnimatedBackground from "../components/background/AnimatedBackground";
 import FloatingParticles from "../components/background/FloatingParticles";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 function VerifyOTP() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -28,7 +30,7 @@ function VerifyOTP() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/auth/verify-otp",
+        `${API_URL}/auth/verify-otp`,
         {
           email,
           otp,
