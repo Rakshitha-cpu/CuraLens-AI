@@ -151,6 +151,7 @@ function Signup() {
 
                 <input
                   type="password"
+                  maxLength={72}
                   name="password"
                   required
                   value={formData.password}
@@ -171,6 +172,7 @@ function Signup() {
 
                 <input
                   type="password"
+                  maxLength={72}
                   name="confirmPassword"
                   required
                   value={formData.confirmPassword}

@@ -106,6 +106,7 @@ function Login() {
                 <input
                   type="password"
                   required
+                  maxLength={72}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
