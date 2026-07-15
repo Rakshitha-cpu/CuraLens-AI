@@ -1,0 +1,11 @@
+medicine,category,purpose,pregnancy_safe,pediatric_safe,food_instruction,common_side_effects
+Paracetamol,Painkiller,Fever and pain relief,Yes,Yes,Can be taken after food,"Nausea;Rash"
+Amoxicillin,Antibiotic,Bacterial infections,Usually,Yes,Take after food,"Diarrhea;Nausea"
+Metformin,Antidiabetic,Control blood sugar,"Doctor Advice",No,Take with meals,"Nausea;Stomach pain"
+ORS,Rehydration,Prevents dehydration,Yes,Yes,Drink after mixing with clean water,None
+5% Dextrose,IV Fluid,Fluid and glucose replacement,Yes,Yes,Hospital administration only,"Fluid overload"
+Ibuprofen,Painkiller,Pain and inflammation,No,"Doctor Advice",Take after food,"Stomach irritation"
+Aspirin,Blood Thinner,Prevents blood clots,No,No,Take after food,"Bleeding"
+Cetirizine,Antihistamine,Allergy relief,Yes,Yes,Can be taken anytime,"Drowsiness"
+Azithromycin,Antibiotic,Bacterial infections,Usually,Yes,Take one hour before food,"Nausea"
+Iron Tablets,Supplement,Treats iron deficiency,Yes,Yes,Take after meals,"Constipation"

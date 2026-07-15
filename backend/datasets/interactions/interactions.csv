@@ -1,0 +1,12 @@
+medicine_a,medicine_b,type,severity,message
+Ciprofloxacin,Antacids,Drug Interaction,MODERATE,Antacids reduce ciprofloxacin absorption significantly. Space doses 2 hours apart.
+Simvastatin,Clarithromycin,Drug Interaction,HIGH,"Clarithromycin inhibits simvastatin metabolism, raising risk of muscle toxicity (rhabdomyolysis)."
+Augmentin,Methotrexate,Drug Interaction,HIGH,"Amoxicillin/clavulanate can reduce methotrexate clearance, raising toxicity risk."
+Warfarin,Aspirin,Drug Interaction,HIGH,May significantly increase bleeding risk. Consult doctor before using together
+Warfarin,Ibuprofen,Drug Interaction,HIGH,Increased bleeding risk. Avoid combination unless prescribed
+Metformin,Alcohol,Drug Interaction,MODERATE,May increase lactic acidosis risk. Avoid alcohol while taking medicine
+Amoxicillin,Methotrexate,Drug Interaction,MODERATE,May increase methotrexate toxicity. Monitor patient closely
+Aspirin,Ibuprofen,Drug Interaction,MODERATE,May reduce aspirin effectiveness. Take only under medical advice
+Paracetamol,Alcohol,Drug Interaction,MODERATE,May increase liver damage risk. Avoid alcohol
+Iron Tablets,Calcium Tablets,Drug Interaction,LOW,Calcium reduces iron absorption. Take at least 2 hours apart
+Azithromycin,Antacid,Drug Interaction,LOW,May reduce antibiotic absorption. Take antibiotic 2 hours before antacid

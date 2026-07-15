@@ -1,0 +1,9 @@
+medicine_a,medicine_b,severity,description,recommendation
+Warfarin,Aspirin,HIGH,May significantly increase bleeding risk,Consult doctor before using together
+Warfarin,Ibuprofen,HIGH,Increased bleeding risk,Avoid combination unless prescribed
+Metformin,Alcohol,MODERATE,May increase lactic acidosis risk,Avoid alcohol while taking medicine
+Amoxicillin,Methotrexate,MODERATE,May increase methotrexate toxicity,Monitor patient closely
+Aspirin,Ibuprofen,MODERATE,May reduce aspirin effectiveness,Take only under medical advice
+Paracetamol,Alcohol,MODERATE,May increase liver damage risk,Avoid alcohol
+Iron Tablets,Calcium Tablets,LOW,Calcium reduces iron absorption,Take at least 2 hours apart
+Azithromycin,Antacid,LOW,May reduce antibiotic absorption,Take antibiotic 2 hours before antacid

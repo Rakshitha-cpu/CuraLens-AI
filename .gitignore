@@ -1,0 +1,15 @@
+# Environment variables
+.env
+backend/.env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Uploads
+app/uploads/*backend/*.db 
+backend/app/database/*.db 
+backend/app/uploads/ 
+frontend/src.zip 
+backend/database/*.db 
