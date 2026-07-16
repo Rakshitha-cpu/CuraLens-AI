@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, DateTime
 
 from app.database import Base
 
@@ -17,3 +17,7 @@ class User(Base):
     is_verified = Column(Boolean, default=False)
 
     otp = Column(String, nullable=True)
+
+    # Login rate limiting
+    failed_login_attempts = Column(Integer, default=0)
+    locked_until = Column(DateTime, nullable=True)
