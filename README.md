@@ -12,24 +12,9 @@ Built for the **Google AI Agent Builder Series 2026** (HiDevs) · Rural Health T
 [![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 
-[Features](#-features) · [Architecture](#-architecture) · [Installation](#-installation) · [API](#-api-overview) · [Future Scope](#-future-scope)
+🔗 **[Live Demo](https://cura-lens-ai.vercel.app)** · [Features](#-features) · [Architecture](#-architecture) · [Installation](#-installation) · [API](#-api-overview) · [Future Scope](#-future-scope)
 
 </div>
-
----
-
-## 📸 Screenshots
-
-<div align="center">
-<i>Add your own screenshots here before submitting — Home, Dashboard, Safety Analysis, and History are the strongest shots to include.</i>
-</div>
-
-```
-docs/screenshots/home.png
-docs/screenshots/dashboard.png
-docs/screenshots/safety-analysis.png
-docs/screenshots/history.png
-```
 
 ---
 
@@ -50,7 +35,8 @@ Handwritten prescriptions are frequently illegible, leading to medication errors
 | ⚠️ **Drug Interaction Detection** | Flags known interactions using curated, clinically-sourced interaction data |
 | 🎓 **AI Medicine Education** | Explains purpose, dosage guidance, food instructions, warnings, and side effects in plain language |
 | 📊 **Prescription Scoring** | A 0–100 completeness/safety score with a clear, honest breakdown of what's missing |
-| 📁 **Prescription History** | Every analysis is saved and reviewable later, scoped to the logged-in user via signed JWT auth |
+| 🔐 **Secure Authentication** | JWT-based sessions with bcrypt password hashing and login rate limiting |
+| 📁 **Prescription History** | Every analysis is saved and reviewable later, scoped to the logged-in user |
 | 📄 **PDF Export** | Download a shareable report of any analysis |
 
 ---
@@ -92,9 +78,10 @@ Each agent has a single, well-defined responsibility. An agent that can't find a
 | **Backend** | FastAPI (Python) |
 | **AI** | Google Gemini 2.5 Flash (OCR + explanations) |
 | **Database** | SQLite (SQLAlchemy) |
-| **Auth** | JWT (signed tokens) + bcrypt |
+| **Auth** | JWT (signed tokens) + bcrypt + rate limiting |
 | **Medicine Data** | 242,000+ curated + public Indian medicine dataset |
 | **PDF Export** | jsPDF |
+| **Hosting** | Render (backend) + Vercel (frontend) |
 
 </div>
 
@@ -142,8 +129,6 @@ npm run dev
 ```
 
 Visit **`http://localhost:5173`** 🎉
-🔗 **Live Demo:** https://cura-lens-ai.vercel.app/
-
 
 ---
 
@@ -175,8 +160,8 @@ A core constraint of this project: information shown to a patient must be clinic
 ## ⚠️ Known Limitations
 
 - **OCR accuracy** depends on handwriting legibility and photo quality, like any OCR system. Genuinely illegible handwriting may not be read correctly — the app is designed to fail *honestly* (low confidence, "not found") rather than guess.
-- **JWT auth** uses signed tokens + password hashing, but doesn't yet include refresh tokens, rate limiting, or account lockout.
 - **AI-generated education content** (for medicines outside the curated database) is clearly labeled "AI Estimated" rather than "Database Verified" — always cross-check with a pharmacist for this category.
+- **Free-tier hosting**: the backend may take 30-60 seconds to respond on first request after inactivity (cold start).
 
 ---
 
@@ -187,10 +172,27 @@ A core constraint of this project: information shown to a patient must be clinic
 | Reminder Agent (scheduled adherence tracking) | 🔲 Not started |
 | Docker (one-command deployment) | 🔲 Not started |
 | Automated test suite | 🔲 Not started |
-| Production deployment | 🔲 Not started |
 | Firebase/Firestore migration | 🔲 Not started |
 | Google ADK adoption | 🔲 Not started |
-| Refresh tokens & session hardening | 🔲 Not started |
+| Refresh tokens & further session hardening | 🔲 Not started |
+
+---
+
+## 👥 Contributors
+
+<div align="center">
+
+| | |
+|:---:|:---:|
+| **[@Rakshitha-cpu](https://github.com/Rakshitha-cpu)** | Creator & Developer |
+
+</div>
+
+---
+
+## 📄 License
+
+This project is licensed under the terms specified in the [LICENSE](./LICENSE) file.
 
 ---
 
