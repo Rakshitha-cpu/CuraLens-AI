@@ -40,11 +40,19 @@ def register_user(db: Session, user: UserSignup):
     db.commit()
     db.refresh(new_user)
 
-    # Send OTP to email
-    send_verification_email(
-        receiver_email=user.email,
-        otp=otp,
-    )
+    # If sending the OTP email fails, roll back the account creation.
+    # Otherwise the user would be stuck: the account exists but they
+    # never got a working OTP, and retrying registration would just
+    # say "Email already registered" with no way to recover.
+    try:
+        send_verification_email(
+            receiver_email=user.email,
+            otp=otp,
+        )
+    except Exception as e:
+        db.delete(new_user)
+        db.commit()
+        raise Exception(str(e))
 
     return {
         "message": "OTP sent to your email. Please verify your account."
