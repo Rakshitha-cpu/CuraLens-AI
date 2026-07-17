@@ -167,6 +167,7 @@ def extract_prescription(image_path: str, max_retries: int = 3):
                 ],
                 config=types.GenerateContentConfig(
                     temperature=0,
+                    http_options=types.HttpOptions(timeout=30000),  # 30s per attempt
                 ),
             )
 

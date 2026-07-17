@@ -68,6 +68,7 @@ def call_ai(prompt: str, max_retries: int = 3):
                 config=types.GenerateContentConfig(
                     temperature=0.1,
                     system_instruction="You are an experienced clinical pharmacist. Always return ONLY valid JSON.",
+                    http_options=types.HttpOptions(timeout=20000),  # 20s per attempt
                 ),
             )
 
