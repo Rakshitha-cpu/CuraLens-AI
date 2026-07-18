@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.auth.models import User
 from app.auth.schemas import UserSignup
 from app.auth.utils import hash_password, verify_password
-from app.auth.email_service import send_verification_email
+from app.auth.email_service import send_otp_email
 
 MAX_FAILED_ATTEMPTS = 5
 LOCKOUT_MINUTES = 5
@@ -40,13 +40,10 @@ def register_user(db: Session, user: UserSignup):
     db.commit()
     db.refresh(new_user)
 
-    # If sending the OTP email fails, roll back the account creation.
-    # Otherwise the user would be stuck: the account exists but they
-    # never got a working OTP, and retrying registration would just
-    # say "Email already registered" with no way to recover.
+    # Send OTP email
     try:
-        send_verification_email(
-            receiver_email=user.email,
+        send_otp_email(
+            to_email=user.email,
             otp=otp,
         )
     except Exception as e:
@@ -67,14 +64,13 @@ def login_user(db: Session, email: str, password: str):
     )
 
     if not user:
-        # Deliberately don't reveal whether the email exists at all -
-        # same generic failure as a wrong password, so an attacker
-        # can't use this endpoint to enumerate valid accounts.
         return None
 
     # Check if currently locked out
     if user.locked_until and user.locked_until > datetime.utcnow():
-        remaining = int((user.locked_until - datetime.utcnow()).total_seconds() / 60) + 1
+        remaining = int(
+            (user.locked_until - datetime.utcnow()).total_seconds() / 60
+        ) + 1
         raise Exception(
             f"Too many failed login attempts. Try again in {remaining} minute(s)."
         )
@@ -83,7 +79,9 @@ def login_user(db: Session, email: str, password: str):
         user.failed_login_attempts = (user.failed_login_attempts or 0) + 1
 
         if user.failed_login_attempts >= MAX_FAILED_ATTEMPTS:
-            user.locked_until = datetime.utcnow() + timedelta(minutes=LOCKOUT_MINUTES)
+            user.locked_until = datetime.utcnow() + timedelta(
+                minutes=LOCKOUT_MINUTES
+            )
             db.commit()
             raise Exception(
                 f"Too many failed login attempts. Account locked for {LOCKOUT_MINUTES} minutes."
@@ -92,7 +90,7 @@ def login_user(db: Session, email: str, password: str):
         db.commit()
         return None
 
-    # Successful password check - reset any prior failure tracking
+    # Reset failed attempts on successful login
     if user.failed_login_attempts or user.locked_until:
         user.failed_login_attempts = 0
         user.locked_until = None
