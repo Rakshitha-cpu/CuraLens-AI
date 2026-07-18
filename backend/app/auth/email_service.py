@@ -1,77 +1,53 @@
-import smtplib
-import socket
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import os
+import random
+import requests
 
-# Without an explicit timeout, smtplib can hang for a very long time
-# (sometimes minutes) if the SMTP server is slow to respond or the
-# network path is blocked - and since this runs synchronously inside
-# the registration request, the frontend just spins with no feedback
-# the whole time. Failing fast with a clear error is much better than
-# an indefinite hang.
-SMTP_TIMEOUT_SECONDS = 10
+BREVO_API_KEY = os.getenv("BREVO_API_KEY")
+FROM_EMAIL = os.getenv("EMAIL_ADDRESS", "yourgmail@gmail.com")
 
+def generate_otp():
+    return str(random.randint(100000, 999999))
 
-def send_verification_email(receiver_email: str, otp: str):
-    sender_email = os.getenv("EMAIL_ADDRESS")
-    sender_password = os.getenv("EMAIL_PASSWORD")
+def send_otp_email(to_email: str, otp: str):
+    if not BREVO_API_KEY:
+        raise Exception("BREVO_API_KEY is not configured")
 
-    if not sender_email or not sender_password:
-        raise Exception(
-            "Email is not configured on the server (EMAIL_ADDRESS / "
-            "EMAIL_PASSWORD missing). Cannot send verification email."
-        )
+    url = "https://api.brevo.com/v3/smtp/email"
 
-    subject = "CuraLens AI - Email Verification"
+    payload = {
+        "sender": {"name": "CuraLens AI", "email": FROM_EMAIL},
+        "to": [{"email": to_email}],
+        "subject": "CuraLens AI - Email Verification OTP",
+        "htmlContent": f"""
+        <html>
+        <body style='font-family:Arial,sans-serif;background:#f4f7fb;padding:20px;'>
+            <div style='max-width:500px;margin:auto;background:white;padding:30px;border-radius:12px;'>
+                <h2 style='color:#0f172a;'>Verify Your Email</h2>
+                <p>Use the OTP below to verify your CuraLens AI account:</p>
+                <div style='font-size:36px;font-weight:bold;color:#2563eb;
+                            text-align:center;margin:20px 0;'>
+                    {otp}
+                </div>
+                <p>This OTP is valid for 10 minutes.</p>
+                <hr>
+                <p style='font-size:12px;color:#64748b;'>
+                    CuraLens AI - AI Powered Prescription Intelligence
+                </p>
+            </div>
+        </body>
+        </html>
+        """
+    }
 
-    body = f"""
-Hello,
+    headers = {
+        "accept": "application/json",
+        "api-key": BREVO_API_KEY,
+        "content-type": "application/json"
+    }
 
-Your CuraLens AI verification code is:
+    response = requests.post(url, json=payload, headers=headers)
 
-{otp}
+    if response.status_code not in [200, 201, 202]:
+        raise Exception(f"Brevo API error: {response.text}")
 
-This OTP is valid for a few minutes.
-
-If you did not create an account, ignore this email.
-
-Regards,
-CuraLens AI Team
-"""
-
-    message = MIMEMultipart()
-    message["From"] = sender_email
-    message["To"] = receiver_email
-    message["Subject"] = subject
-
-    message.attach(MIMEText(body, "plain"))
-
-    try:
-        server = smtplib.SMTP(
-            "smtp.gmail.com", 587, timeout=SMTP_TIMEOUT_SECONDS
-        )
-        server.starttls()
-        server.login(sender_email, sender_password)
-        server.sendmail(sender_email, receiver_email, message.as_string())
-        server.quit()
-
-    except smtplib.SMTPAuthenticationError:
-        # Wrong EMAIL_ADDRESS/EMAIL_PASSWORD, or a regular Gmail
-        # password used instead of an App Password (required when
-        # 2FA is enabled on the sending account).
-        raise Exception(
-            "Failed to send verification email: authentication failed. "
-            "Check EMAIL_ADDRESS/EMAIL_PASSWORD - Gmail requires an "
-            "App Password, not your regular account password."
-        )
-
-    except (socket.timeout, TimeoutError):
-        raise Exception(
-            f"Failed to send verification email: connection to the "
-            f"mail server timed out after {SMTP_TIMEOUT_SECONDS}s. "
-            f"This may be a temporary network issue - please try again."
-        )
-
-    except Exception as e:
-        raise Exception(f"Failed to send verification email: {e}")
+    return True
